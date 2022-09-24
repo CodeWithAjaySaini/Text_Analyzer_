@@ -11,15 +11,16 @@ def home(request):
 
 def analyze(request):
     #Get the Text ...........................
-    djtext=request.GET.get('text','default')
+    djtext=request.POST.get('text','off')
+    print(djtext)
     #........................................
     
     #Check remove Punc .........
-    removepunc = request.GET.get('removepunc','default')
-    capon = request.GET.get('capon','default')
-    removespace = request.GET.get('removespace','default')
-    pdff= request.GET.get('pdf','default')
-    removeline= request.GET.get('removeline','default')
+    removepunc = request.POST.get('removepunc','off')
+    capon = request.POST.get('capon','off')
+    removespace = request.POST.get('removespace','off')
+    pdff= request.POST.get('pdf','off')
+    removeline= request.POST.get('removeline','off')
     analyzed=djtext
     #........................................
     punctuations='''!()-[]{}:;'"\,.<>/?@#$%^&*`~|'''
