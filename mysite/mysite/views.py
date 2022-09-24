@@ -1,7 +1,8 @@
+#For Convert text to PDf
 from fpdf import FPDF
 import webbrowser
 
-
+##........................
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -12,7 +13,6 @@ def home(request):
 def analyze(request):
     #Get the Text ...........................
     djtext=request.POST.get('text','off')
-    print(djtext)
     #........................................
     
     #Check remove Punc .........
@@ -23,22 +23,32 @@ def analyze(request):
     removeline= request.POST.get('removeline','off')
     analyzed=djtext
     #........................................
+    
+    #Remove Punctuations Function,////////////////////////////////
     punctuations='''!()-[]{}:;'"\,.<>/?@#$%^&*`~|'''
     if removepunc=='on':
         analyzed=""
         for char in djtext:
             if char not in punctuations:
                 analyzed=analyzed+char
+                
+    #//////////////////////////////////////////////////////////
+    
+    #/////CapOn Function//////////////////////////////////
     if capon=='on':
         analyzed=analyzed.upper()
         
-        
+    #///////////////////////////////////////////////////
+    
+    #////////////////////Remove Line Function////////////////////////////////
     if removeline=='on':
         for char in analyzed:
             if char=='\n':
                 analyzed=analyzed.replace("\n","")
                 
+    #///////////////////////////////////////////////////////////////
     
+    #////////////////////Remove Spaces////////////////////////////
     if removespace=='on':
      
         for char in analyzed:
@@ -52,23 +62,8 @@ def analyze(request):
             elif char=='\r':
                 analyzed=analyzed.replace("\r",'')
                 
-                
-                
-                
-        # analyzed=analyzed.split()
-        
-    
-    
-                
-                
-    
-    #PDF...................................
-    
-# Python program to create
-# a pdf file
- 
- 
- 
+#///////////////////////////////////////////////////////////                
+# ///////////////////PDF...................................
  
     # save FPDF() class into a
     # variable pdf
@@ -82,8 +77,6 @@ def analyze(request):
         # that you want in the pdf
         pdf.set_font("Arial", size = 15)
         
-        
-        
         # add another cell
         pdf.cell(300, 30, txt = analyzed,
                 ln = 100, align = 'C')
@@ -92,7 +85,9 @@ def analyze(request):
         pdf.output("GFG.pdf") 
         path='file:///D:/Django_harry/mysite/GFG.pdf'
 
+        #////////Open in new window with Generated Pdf
         webbrowser.open_new(path)
+        #///////////////////////////////////////
         
         
         
