@@ -21,6 +21,7 @@ def analyze(request):
     removespace = request.POST.get('removespace','off')
     pdff= request.POST.get('pdf','off')
     removeline= request.POST.get('removeline','off')
+    numberremover =request.POST.get('numberremover','off')
     analyzed=djtext
     #........................................
     
@@ -34,6 +35,8 @@ def analyze(request):
                 
     #//////////////////////////////////////////////////////////
     
+    
+
     #/////CapOn Function//////////////////////////////////
     if capon=='on':
         analyzed=analyzed.upper()
@@ -61,6 +64,14 @@ def analyze(request):
                 # \t\n\r\t
             elif char=='\r':
                 analyzed=analyzed.replace("\r",'')
+    
+    if (numberremover == "on"):
+        analyzed = ""
+        numbers = '0123456789'
+
+        for char in djtext:
+            if char not in numbers:
+                analyzed = analyzed + char
                 
 #///////////////////////////////////////////////////////////                
 # ///////////////////PDF...................................
@@ -89,7 +100,8 @@ def analyze(request):
         webbrowser.open_new(path)
         #///////////////////////////////////////
         
-        
+    if (len(djtext)==0):
+        return HttpResponse('Where is Your Text ??<br>Enter Your Text Please <br> <a href="/"> Go Back To Main Page</a>')
         
     params={'purpose': 'Remove Punctuations','analyzed_text': analyzed}
     return render(request, 'analyze.html',params)
